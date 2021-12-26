@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +23,7 @@ import java.util.List;
  * Use the {@link List_fragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class List_fragment extends Fragment implements Try_adapter.CheckBoxCheckedListener {
+public class List_fragment extends Fragment  {
     ListView listView;
     FragmentListener fragmentListenerlist;
     String opertions,name;
@@ -32,16 +33,12 @@ public class List_fragment extends Fragment implements Try_adapter.CheckBoxCheck
     ArrayList<List> lists;
     View v;
 
-    @Override
-    public void getcheckboxchecked(int position) {
-        System.out.println(names.get(position));
-    }
 
 
     public interface FragmentListener
     {
         void action_input(String name,String operation);
-        void action_delete(String action);
+
     }
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -101,56 +98,44 @@ public class List_fragment extends Fragment implements Try_adapter.CheckBoxCheck
         this.name=name;
         this.opertions=operations;
         if(opertions.equals("delete")) {
-            names.remove(name);
+            SparseBooleanArray sparseBooleanArray=listView.getCheckedItemPositions();
+            for (int i = 0; i <listView.getCount()+1; i++) {
+
+                if(sparseBooleanArray.get(i)==true)
+
+
+                {
+
+                    names.remove(i-1);
+
+                }
+
+                arrayAdapter.notifyDataSetChanged();
+
+            }
         }
         else if(opertions.equals("add"))
         {
             names.add(name);
         }
-            Try_adapter try_adapter= new Try_adapter(v.getContext(), names);
-            listView.setAdapter(try_adapter);
-            try_adapter.setCheckBoxCheckedListener(List_fragment.this);
-        //arrayAdapter= new ArrayAdapter<>(getActivity(), R.layout.support_simple_spinner_dropdown_item,names);
-        //listView.setAdapter(arrayAdapter);
+
+        arrayAdapter= new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_multiple_choice ,names);
+        listView.setAdapter(arrayAdapter);
         handler.post(new Runnable() {
             @Override
             public void run() {
-               // listView.smoothScrollToPosition(arrayAdapter.getCount()-1);
+                listView.smoothScrollToPosition(arrayAdapter.getCount()-1);
             }
         });
     }
     public void updateDelete(String opertions) {
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
 
-            }
-        });
 
 
 
     }
 
-    /*@Override
-    public Boolean onCreateOptionsMenu(@NonNull Menu menu ) {
-        AppCompatActivity appCompatActivity=new AppCompatActivity();
-        appCompatActivity.getMenuInflater().inflate(R.menu.menu_menu, menu);
-        return true;
-        //super.onCreateOptionsMenu(menu, inflater);
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id=item.getItemId();
-        if(id==R.id.item_marked)
-        {
-            ArrayList<String> itemSelected= new ArrayList<>();
-            for (int i = 0; i < 10; i++) {
-                
-            }
-        }
-        return super.onOptionsItemSelected(item);
-    }*/
 
     @Override
     public void onAttach(@NonNull Context context) {

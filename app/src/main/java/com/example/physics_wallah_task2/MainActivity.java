@@ -21,13 +21,13 @@ public class MainActivity extends AppCompatActivity implements action_fragment.F
     }
 
     @Override
-    public void action_input(String name, String operation) {
+    public void action_input(String name,String operation) {
                 list_fragment.update(name, operation);
 
     }
 
-    @Override
-    public void action_delete(String action) {
-                list_fragment.updateDelete(action);
-    }
+
+
+
+
 }

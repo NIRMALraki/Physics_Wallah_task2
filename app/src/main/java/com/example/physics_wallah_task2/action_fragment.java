@@ -25,7 +25,9 @@ public class action_fragment extends Fragment {
     public interface FragmentListener
     {
         void action_input(String name,String operation);
-        void action_delete(String action);
+
+
+
     }
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -79,14 +81,14 @@ public class action_fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String nameinput=name.getText().toString();
-                fragmentListener.action_input(nameinput, "add");
+                fragmentListener.action_input(nameinput,"add");
             }
         });
 
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragmentListener.action_delete("delete");
+                fragmentListener.action_input("","delete");
             }
         });
         return v;
